@@ -1,0 +1,61 @@
+{
+	"name": "remark-tweet-card",
+	"version": "1.0.0-beta.0",
+	"description": "Remark plugin to render tweet cards from [$tweet](url) markdown syntax",
+	"type": "module",
+	"license": "MIT",
+	"author": "Talaxy009",
+	"scripts": {
+		"publish": "yarn npm publish",
+		"publish:beta": "yarn npm publish --tag=beta",
+		"format": "prettier --write \"src/**/*.{js,ts,jsx,tsx,css,md,mdx}\""
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Talaxy009/remark-tweet-card.git"
+	},
+	"exports": {
+		".": {
+			"types": "./types/index.d.ts",
+			"default": "./src/index.js"
+		},
+		"./style.css": "./styles/main.css",
+		"./api": "./src/api.js",
+		"./html": "./src/html.js",
+		"./utils": "./src/utils.js",
+		"./icons": "./src/icons.js"
+	},
+	"files": [
+		"src/",
+		"styles/",
+		"types/",
+		"README.md",
+		"README.zh-CN.md",
+		"LICENSE"
+	],
+	"keywords": [
+		"remark",
+		"remark-plugin",
+		"tweet",
+		"twitter",
+		"x",
+		"embed",
+		"markdown",
+		"unified"
+	],
+	"dependencies": {
+		"unist-util-visit": "^5.1.0"
+	},
+	"peerDependencies": {
+		"unist-util-visit": "^5.1.0"
+	},
+	"peerDependenciesMeta": {
+		"unist-util-visit": {
+			"optional": false
+		}
+	},
+	"types": "./types/index.d.ts",
+	"devDependencies": {
+		"prettier": "^3.8.4"
+	}
+}
