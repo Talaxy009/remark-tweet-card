@@ -5,6 +5,8 @@
 
 一个 [Remark](https://github.com/remarkjs/remark) 插件，为 Markdown、MDX 嵌入推文卡片。通过推特公开的 syndication API 获取数据，无需 API Key 和部署后端服务。推文会在渲染时插入，非常适合 Astro 等 SSG/SSR 项目。
 
+📖 [English Documentation](https://github.com/Talaxy009/remark-tweet-card/blob/main/README.md)
+
 ---
 
 ## 👀 效果预览
@@ -39,27 +41,27 @@ yarn add remark-tweet-card
 
 1. 导入
 
-   和一般的 remark 插件一样，这里以 Astro 为例：
+    和一般的 remark 插件一样，这里以 Astro 为例：
 
-   ```js
-   // astro.config.js
-   import { unified } from "@astrojs/markdown-remark";
-   import remarkTweetCard from "remark-tweet-card";
+    ```js
+    // astro.config.js
+    import { unified } from '@astrojs/markdown-remark';
+    import remarkTweetCard from 'remark-tweet-card';
 
-   export default defineConfig({
-     markdown: {
-       processor: unified({
-         remarkPlugins: [remarkTweetCard],
-       }),
-     },
-   });
-   ```
+    export default defineConfig({
+      markdown: {
+        processor: unified({
+          remarkPlugins: [remarkTweetCard],
+        }),
+      },
+    });
+    ```
 
 2. 引入全局样式
 
-   ```css
-   @import "remark-tweet-card/style.css";
-   ```
+    ```css
+    @import 'remark-tweet-card/style.css';
+    ```
 
 ---
 
@@ -68,7 +70,7 @@ yarn add remark-tweet-card
 ```js
 remarkTweetCard({
   // CSS 类名前缀（默认 'tweet-card'）
-  prefix: "tweet-card",
+  prefix: 'tweet-card',
 
   // API 请求超时时间，单位毫秒（默认 10000）
   timeout: 10000,
@@ -82,20 +84,41 @@ remarkTweetCard({
   },
 
   // 自定义完整推文卡片 HTML 渲染
-  renderTweet: (tweet, { prefix }) => {
+  renderTweet: (tweet, { prefix, text }) => {
     /* 返回 HTML 字符串 */
   },
 
   // 自定义错误降级 HTML 渲染
-  renderError: (url, { prefix }) => {
+  renderError: (url, { prefix, text }) => {
     /* 返回 HTML 字符串 */
   },
 
-  // 推文不可用时显示的文本
-  notFoundText: "Tweet not available.",
+  // 本地化文本标签
+  text: {
+    replies: 'Replies',
+    reposts: 'Reposts',
+    quotes: 'Quotes',
+    likes: 'Likes',
+    viewOnX: 'View on X',
+    notFound: 'Tweet not available.',
+  },
+});
+```
 
-  // 降级链接文字
-  viewOnXText: "View on X →",
+### 本地化配置
+
+通过 `text` 选项可将推文卡片的界面文本本地化为任意语言。例如，配置为中文：
+
+```js
+remarkTweetCard({
+  text: {
+    replies: '回复',
+    reposts: '转发',
+    quotes: '引用',
+    likes: '喜欢',
+    viewOnX: '在 X 上查看',
+    notFound: '推文不可用。',
+  },
 });
 ```
 
@@ -171,7 +194,7 @@ remarkTweetCard({ fetchTweet: myFetcher })
 
 ```js
 remarkTweetCard({
-  renderTweet(tweet, { prefix }) {
+  renderTweet(tweet, { prefix, text }) {
     // 使用你自己的模板生成 HTML
     return `<blockquote class="${prefix}">${tweet.text}</blockquote>`;
   },
@@ -187,13 +210,13 @@ import {
   extractTweetId,
   fetchTweetData,
   clearCache,
-} from "remark-tweet-card/api";
-import { buildTweetHTML, buildErrorHTML } from "remark-tweet-card/html";
-import { formatDate, formatCount } from "remark-tweet-card/utils";
+} from 'remark-tweet-card/api';
+import { buildTweetHTML, buildErrorHTML } from 'remark-tweet-card/html';
+import { formatCount } from 'remark-tweet-card/utils';
 
-const id = extractTweetId("https://x.com/user/status/123456");
+const id = extractTweetId('https://x.com/user/status/123456');
 const tweet = await fetchTweetData(id, { timeout: 5000 });
-const html = tweet ? buildTweetHTML(tweet, { prefix: "tweet-card" }) : "";
+const html = tweet ? buildTweetHTML(tweet, { prefix: 'tweet-card' }) : '';
 ```
 
 ---

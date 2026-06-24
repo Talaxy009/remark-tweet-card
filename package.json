@@ -6,6 +6,7 @@
 	"license": "MIT",
 	"author": "Talaxy009",
 	"scripts": {
+		"build": "tsc",
 		"publish": "yarn npm publish",
 		"publish:beta": "yarn npm publish --tag=beta",
 		"format": "prettier --write \"src/**/*.{js,ts,jsx,tsx,css,md,mdx}\""
@@ -15,20 +16,16 @@
 		"url": "git+https://github.com/Talaxy009/remark-tweet-card.git"
 	},
 	"exports": {
-		".": {
-			"types": "./types/index.d.ts",
-			"default": "./src/index.js"
-		},
-		"./style.css": "./styles/main.css",
-		"./api": "./src/api.js",
-		"./html": "./src/html.js",
-		"./utils": "./src/utils.js",
-		"./icons": "./src/icons.js"
+		".": "./dist/index.js",
+		"./api": "./dist/api.js",
+		"./html": "./dist/html.js",
+		"./utils": "./dist/utils.js",
+		"./icons": "./dist/icons.js",
+		"./style.css": "./styles/main.css"
 	},
 	"files": [
-		"src/",
+		"dist/",
 		"styles/",
-		"types/",
 		"README.md",
 		"README.zh-CN.md",
 		"LICENSE"
@@ -54,8 +51,8 @@
 			"optional": false
 		}
 	},
-	"types": "./types/index.d.ts",
 	"devDependencies": {
-		"prettier": "^3.8.4"
+		"prettier": "^3.8.4",
+		"typescript": "^5.7.0"
 	}
 }

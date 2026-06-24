@@ -41,27 +41,27 @@ yarn add remark-tweet-card
 
 1. Import
 
-   Same as any remark plugin. Here's an example with Astro:
+    Same as any remark plugin. Here's an example with Astro:
 
-   ```js
-   // astro.config.js
-   import { unified } from "@astrojs/markdown-remark";
-   import remarkTweetCard from "remark-tweet-card";
+    ```js
+    // astro.config.js
+    import { unified } from '@astrojs/markdown-remark';
+    import remarkTweetCard from 'remark-tweet-card';
 
-   export default defineConfig({
-     markdown: {
-       processor: unified({
-         remarkPlugins: [remarkTweetCard],
-       }),
-     },
-   });
-   ```
+    export default defineConfig({
+      markdown: {
+        processor: unified({
+          remarkPlugins: [remarkTweetCard],
+        }),
+      },
+    });
+    ```
 
 2. Import global styles
 
-   ```css
-   @import "remark-tweet-card/style.css";
-   ```
+    ```css
+    @import 'remark-tweet-card/style.css';
+    ```
 
 ---
 
@@ -70,7 +70,7 @@ yarn add remark-tweet-card
 ```js
 remarkTweetCard({
   // CSS class prefix (default: 'tweet-card')
-  prefix: "tweet-card",
+  prefix: 'tweet-card',
 
   // API request timeout in milliseconds (default: 10000)
   timeout: 10000,
@@ -84,20 +84,41 @@ remarkTweetCard({
   },
 
   // Custom full tweet card HTML renderer
-  renderTweet: (tweet, { prefix }) => {
+  renderTweet: (tweet, { prefix, text }) => {
     /* return HTML string */
   },
 
   // Custom error fallback HTML renderer
-  renderError: (url, { prefix }) => {
+  renderError: (url, { prefix, text }) => {
     /* return HTML string */
   },
 
-  // Text displayed when tweet is unavailable
-  notFoundText: "Tweet not available.",
+  // Localized text labels
+  text: {
+    replies: 'Replies',
+    reposts: 'Reposts',
+    quotes: 'Quotes',
+    likes: 'Likes',
+    viewOnX: 'View on X',
+    notFound: 'Tweet not available.',
+  },
+});
+```
 
-  // Fallback link text
-  viewOnXText: "View on X →",
+### Localization
+
+Use the `text` option to localize the tweet card UI into any language. For example, configure it for Chinese:
+
+```js
+remarkTweetCard({
+  text: {
+    replies: '回复',
+    reposts: '转发',
+    quotes: '引用',
+    likes: '喜欢',
+    viewOnX: '在 X 上查看',
+    notFound: '推文不可用。',
+  },
 });
 ```
 
@@ -107,18 +128,18 @@ remarkTweetCard({
 
 A default stylesheet is provided, with all colors controlled via CSS custom properties. Override the following variables to customize the appearance:
 
-| Variable           | Description               | Default (light)        |
-| ------------------ | ------------------------- | ---------------------- |
-| `--tc-bg`          | Card background           | `#ffffff`              |
-| `--tc-border`      | Border color              | `#cfd9de`              |
-| `--tc-text`        | Primary text color        | `#0f1419`              |
-| `--tc-text-muted`  | Muted text color          | `#536471`              |
-| `--tc-link`        | Link color                | `#1d9bf0`              |
+| Variable           | Description                    | Default (light)        |
+| ------------------ | ------------------------------ | ---------------------- |
+| `--tc-bg`          | Card background                | `#ffffff`              |
+| `--tc-border`      | Border color                   | `#cfd9de`              |
+| `--tc-text`        | Primary text color             | `#0f1419`              |
+| `--tc-text-muted`  | Muted text color               | `#536471`              |
+| `--tc-link`        | Link color                     | `#1d9bf0`              |
 | `--tc-primary`     | Primary color (buttons, hover) | `#1d9bf0`              |
-| `--tc-verified`    | Verified badge color      | `#1d9bf0`              |
-| `--tc-font-family` | Font family               | System font stack      |
-| `--tc-overlay`     | Video play button background | `rgba(0,0,0,0.65)`     |
-| `--tc-hover-bg`    | Hover background          | `rgba(29,155,240,0.1)` |
+| `--tc-verified`    | Verified badge color           | `#1d9bf0`              |
+| `--tc-font-family` | Font family                    | System font stack      |
+| `--tc-overlay`     | Video play button background   | `rgba(0,0,0,0.65)`     |
+| `--tc-hover-bg`    | Hover background               | `rgba(29,155,240,0.1)` |
 
 ### Dark Mode
 
@@ -173,7 +194,7 @@ Take full control of the HTML output:
 
 ```js
 remarkTweetCard({
-  renderTweet(tweet, { prefix }) {
+  renderTweet(tweet, { prefix, text }) {
     // Generate HTML with your own template
     return `<blockquote class="${prefix}">${tweet.text}</blockquote>`;
   },
@@ -189,13 +210,13 @@ import {
   extractTweetId,
   fetchTweetData,
   clearCache,
-} from "remark-tweet-card/api";
-import { buildTweetHTML, buildErrorHTML } from "remark-tweet-card/html";
-import { formatDate, formatCount } from "remark-tweet-card/utils";
+} from 'remark-tweet-card/api';
+import { buildTweetHTML, buildErrorHTML } from 'remark-tweet-card/html';
+import { formatCount } from 'remark-tweet-card/utils';
 
-const id = extractTweetId("https://x.com/user/status/123456");
+const id = extractTweetId('https://x.com/user/status/123456');
 const tweet = await fetchTweetData(id, { timeout: 5000 });
-const html = tweet ? buildTweetHTML(tweet, { prefix: "tweet-card" }) : "";
+const html = tweet ? buildTweetHTML(tweet, { prefix: 'tweet-card' }) : '';
 ```
 
 ---
