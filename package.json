@@ -1,6 +1,6 @@
 {
 	"name": "remark-tweet-card",
-	"version": "1.0.0-beta.0",
+	"version": "1.0.0-beta.1",
 	"description": "Remark plugin to render tweet cards from [$tweet](url) markdown syntax",
 	"type": "module",
 	"license": "MIT",
