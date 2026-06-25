@@ -1,227 +1,59 @@
-# remark-tweet-card
+<p align="center">
+  <img src="https://img.shields.io/npm/v/remark-tweet-card?style=flat-square&label=version" alt="npm version">
+  <img src="https://img.shields.io/npm/l/remark-tweet-card?style=flat-square" alt="license">
+</p>
 
-[![npm version](https://img.shields.io/npm/v/remark-tweet-card)](https://www.npmjs.com/package/remark-tweet-card)
-[![license](https://img.shields.io/npm/l/remark-tweet-card)](LICENSE)
+<h1 align="center">remark-tweet-card</h1>
 
-A [Remark](https://github.com/remarkjs/remark) plugin to embed tweet cards in Markdown and MDX. It fetches data via Twitter's public syndication API — no API key or backend service required. Tweets are rendered at build time, making it ideal for SSG/SSR projects like Astro.
+<p align="center">
+  <em>Embed beautiful tweet cards in Markdown &amp; MDX</em>
+</p>
 
-📖 [中文文档](https://github.com/Talaxy009/remark-tweet-card/blob/main/README.zh-CN.md)
-
----
-
-## 👀 Preview
-
-Use the following syntax in Markdown:
-
-```markdown
-[$tweet](1654079444816936969)
-
-or
-
-[$tweet](https://x.com/github/status/1654079444816936969)
-```
-
-After building, it renders as a full tweet card including avatar, body, media, quoted tweets, engagement metrics, and more.
+<p align="center">
+  <a href="https://remark-tweet-card.talaxy.site/demo">🎨 Demo</a>
+  ·
+  <a href="https://remark-tweet-card.talaxy.site/docs-en">📖 English Docs</a>
+  ·
+  <a href="https://remark-tweet-card.talaxy.site/docs-en">📖 中文文档</a>
+</p>
 
 ---
 
-## 🚚 Installation
+## ✨ Features
 
-```shell
+- 🪪 **No API key needed** — Uses Twitter's public syndication API
+- ⚡ **Build-time rendering** — Perfect for SSG/SSR projects like Astro
+- 🎨 **Full tweet card** — Avatar, body, media, quoted tweets, engagement metrics, and more
+
+---
+
+## 📦 Installation
+
+```bash
 npm install remark-tweet-card
 ```
 
-or
+---
 
-```shell
-yarn add remark-tweet-card
+## 🚀 Usage
+
+Use the following syntax in your Markdown / MDX files:
+
+```markdown
+[$tweet](1654079444816936969)
 ```
 
-## 🔦 Usage
+Or with a full URL:
 
-1. Import
+```markdown
+[$tweet](https://x.com/github/status/1654079444816936969)
+```
 
-    Same as any remark plugin. Here's an example with Astro:
-
-    ```js
-    // astro.config.js
-    import { unified } from '@astrojs/markdown-remark';
-    import remarkTweetCard from 'remark-tweet-card';
-
-    export default defineConfig({
-      markdown: {
-        processor: unified({
-          remarkPlugins: [remarkTweetCard],
-        }),
-      },
-    });
-    ```
-
-2. Import global styles
-
-    ```css
-    @import 'remark-tweet-card/style.css';
-    ```
+After building, each tweet is rendered as a full card including avatar, body, media, quoted tweets, engagement metrics, and more.
 
 ---
 
-## 🔧 Configuration
-
-```js
-remarkTweetCard({
-  // CSS class prefix (default: 'tweet-card')
-  prefix: 'tweet-card',
-
-  // API request timeout in milliseconds (default: 10000)
-  timeout: 10000,
-
-  // Custom cache instance, must implement get/set/has (default: internal Map)
-  cache: new Map(),
-
-  // Custom tweet data fetcher
-  fetchTweet: async (id, { timeout, cache }) => {
-    /* ... */
-  },
-
-  // Custom full tweet card HTML renderer
-  renderTweet: (tweet, { prefix, text }) => {
-    /* return HTML string */
-  },
-
-  // Custom error fallback HTML renderer
-  renderError: (url, { prefix, text }) => {
-    /* return HTML string */
-  },
-
-  // Localized text labels
-  text: {
-    replies: 'Replies',
-    reposts: 'Reposts',
-    quotes: 'Quotes',
-    likes: 'Likes',
-    viewOnX: 'View on X',
-    notFound: 'Tweet not available.',
-  },
-});
-```
-
-### Localization
-
-Use the `text` option to localize the tweet card UI into any language. For example, configure it for Chinese:
-
-```js
-remarkTweetCard({
-  text: {
-    replies: '回复',
-    reposts: '转发',
-    quotes: '引用',
-    likes: '喜欢',
-    viewOnX: '在 X 上查看',
-    notFound: '推文不可用。',
-  },
-});
-```
-
----
-
-## 🎨 Custom Styles
-
-A default stylesheet is provided, with all colors controlled via CSS custom properties. Override the following variables to customize the appearance:
-
-| Variable           | Description                    | Default (light)        |
-| ------------------ | ------------------------------ | ---------------------- |
-| `--tc-bg`          | Card background                | `#ffffff`              |
-| `--tc-border`      | Border color                   | `#cfd9de`              |
-| `--tc-text`        | Primary text color             | `#0f1419`              |
-| `--tc-text-muted`  | Muted text color               | `#536471`              |
-| `--tc-link`        | Link color                     | `#1d9bf0`              |
-| `--tc-primary`     | Primary color (buttons, hover) | `#1d9bf0`              |
-| `--tc-verified`    | Verified badge color           | `#1d9bf0`              |
-| `--tc-font-family` | Font family                    | System font stack      |
-| `--tc-overlay`     | Video play button background   | `rgba(0,0,0,0.65)`     |
-| `--tc-hover-bg`    | Hover background               | `rgba(29,155,240,0.1)` |
-
-### Dark Mode
-
-Dark styles are not included by default. Configure them based on your project's needs:
-
-```css
-@media (prefers-color-scheme: dark) {
-  :root {
-    --tc-bg: #16181c;
-    --tc-border: #2f3336;
-    --tc-text: #e7e9ea;
-    --tc-text-muted: #71767b;
-  }
-}
-```
-
-or
-
-```css
-.dark {
-  --tc-bg: #16181c;
-  --tc-border: #2f3336;
-  --tc-text: #e7e9ea;
-  --tc-text-muted: #71767b;
-}
-```
-
----
-
-## 😎 Advanced Usage
-
-### Custom Data Fetching
-
-If you need to proxy requests or add extra error handling:
-
-```js
-import remarkTweetCard from 'remark-tweet-card';
-import { fetchTweetData } from 'remark-tweet-card/api';
-
-function myFetcher(id, { timeout, cache }) {
-  // Fetch data through your own proxy
-  const res = await fetch(`/api/tweet?id=${id}`);
-  return res.ok ? res.json() : null;
-}
-
-remarkTweetCard({ fetchTweet: myFetcher })
-```
-
-### Custom Rendering
-
-Take full control of the HTML output:
-
-```js
-remarkTweetCard({
-  renderTweet(tweet, { prefix, text }) {
-    // Generate HTML with your own template
-    return `<blockquote class="${prefix}">${tweet.text}</blockquote>`;
-  },
-});
-```
-
-### Reusing Submodules
-
-The plugin's internal modules are also exported individually for easy reuse:
-
-```js
-import {
-  extractTweetId,
-  fetchTweetData,
-  clearCache,
-} from 'remark-tweet-card/api';
-import { buildTweetHTML, buildErrorHTML } from 'remark-tweet-card/html';
-import { formatCount } from 'remark-tweet-card/utils';
-
-const id = extractTweetId('https://x.com/user/status/123456');
-const tweet = await fetchTweetData(id, { timeout: 5000 });
-const html = tweet ? buildTweetHTML(tweet, { prefix: 'tweet-card' }) : '';
-```
-
----
-
-## 💡 Credits
+## ❤️ Credits
 
 This project is inspired by [react-tweet](https://github.com/vercel/react-tweet). The vast majority of the code was written by DeepSeek V4 Pro and Claude Sonnet 4.6, with all code reviewed by a human (me).
 
